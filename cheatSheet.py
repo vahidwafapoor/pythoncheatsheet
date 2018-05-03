@@ -253,3 +253,69 @@ def hello_world():
     return render_template('index.html')  # Render the template and return it!
 if __name__=="__main__":
     app.run(debug=True)                   # Run the app in debug mode.
+
+
+
+#in the templates folder create index.html and pop in a basic html skeleton 
+<html>
+  <head>
+    <title>Template Test</title>
+  </head>
+  <body>
+    <p>My name is {{name}}</p>
+  </body>
+</html>
+
+# now in the hello world function change the return statement to be this 
+
+return render_template("index.html", name="Jay")
+
+#When you run the app you will see that {{name}} in the HTML file was replaced by the variable that we passed to the render_template function!
+#Flask uses a templating engine called Jinja2 to parse through files looking for {{}},
+#replace variables with real values, and send a complete HTML file back to the client.
+
+Example of how to embed python in flask template
+
+from flask import Flask, render_template
+app = Flask(__name__)
+@app.route('/')
+def index():
+    return render_template("index.html", phrase="hello", times=5)
+if __name__=="__main__":
+    app.run(debug=True)
+
+#Then the templates folder should contain a index.html file that  looks like this. 
+<html>
+    <head>
+      <title>My First Template</title>
+    </head>
+    <body>
+      <h3>My flask template with embedded Python-like code</h3>
+      <!-- this will output the value of our phrase variable -->
+      <p>Phrase: {{ phrase }}</p>
+      <!-- this will output the value of our times variable -->
+      <p>Times: {{ times }}</p>
+      <!-- here is an example of embedding a for-loop in our code -->
+      {% for x in range(0,times): %}
+      <p>{{ phrase }}</p>
+      {% endfor %}
+      <!-- here is an example of embedding an if statement in our code -->
+      {% if phrase == "hello" %}
+      <p>The phrase says hello</p>
+      {% endif %}
+    </body>
+</html>
+# In the above code, we used the different embedding tags to output some of our variables, insert a for-loop,
+# and do some conditional checking with an if statement in our HTML template. It's especially important to see how we 
+# used the values that we passed into our template from our server file in the embedding tags.
+
+# These tags allow us to control what gets rendered (if statements), 
+# how many times something gets rendered (for loop) and printing values to our rendered html.
+
+# Although you technically can do a lot of logic in your templates, 
+# you should try to limit that logic as much as possible. Do the bulk of your logic in your Python code. 
+# If you put too much logic in your templates, you may slow down your server response time.
+
+# As we mentioned previously, Flask uses a templating engine called Jinja2.
+#  Jinja2 has a lot of great built-in features that allow us to place dynamic information on HTML pages.
+
